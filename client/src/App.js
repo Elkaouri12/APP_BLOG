@@ -1,25 +1,39 @@
-import logo from './logo.svg';
-import './App.css';
+import { useEffect } from 'react';
+import { BrowserRouter as Router, Routes, Route ,Navigate } from "react-router-dom";
+
+import PostForm from './Components/PostForm';
+ import { GetCategories } from './Redux/CategorySlice';
+ import { useDispatch } from 'react-redux';
+ import NavBar from './Components/NavBar';
 
 function App() {
+
+  // const dispatch=useDispatch();
+  // useEffect(()=>{
+  //   dispatch(GetCategories());
+
+  // },[])
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+
+<>
+
+
+<NavBar/>
+  <Router>
+            <Routes>
+             <Route path="/add-post" element={<PostForm/>} />
+
+
+                  
+           </Routes>
+   </Router>
+</> 
+  
+
+         
+
   );
 }
 
 export default App;
+

@@ -2,6 +2,12 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Api\AuthController;
+use App\Http\Controllers\Api\PostController;
+use App\Http\Controllers\Api\CategoryController;
+// use App\Http\Controllers\CategoryController;
+
+
 
 /*
 |--------------------------------------------------------------------------
@@ -16,4 +22,29 @@ use Illuminate\Support\Facades\Route;
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
+    
 });
+
+
+Route::group([ 'middleware'=>['auth:sanctum']  ],function(){
+    Route::get('logout',[AuthController::class,'logout']);
+    Route::get('profile',[AuthController::class,'Profile']);
+    Route::put('update/{id}',[AuthController::class,'update']);
+    Route::get('/users', [AuthController::class, 'index']);
+    Route::delete('/users/{id}', [AuthController::class, 'destroy']);
+
+// -------------------------------Category Routes--------------------------------
+Route::resource('category',CategoryController::class);
+Route::resource('post',PostController::class);
+
+});
+
+
+Route::post('/auth/register', [AuthController::class, 'register']);
+Route::post('/auth/login', [AuthController::class, 'login']);
+Route::post('forget',[AuthController::class,'forget']);
+Route::post('reset',[AuthController::class,'reset']);
+
+
+ 
+ // update post
