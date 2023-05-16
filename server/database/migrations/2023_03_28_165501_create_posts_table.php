@@ -18,6 +18,9 @@ return new class extends Migration
             $table->string('title');
             $table->string('heading_image')->nullable();
             $table->string('slug')->unique();
+            $table->tinyInteger('trending')->default('0')->comment('1=trending,0=not-trinding');
+            $table->tinyInteger('status')->default('0')->comment('1=hidden,0=not-visible');
+
             $table->timestamps();
 
 

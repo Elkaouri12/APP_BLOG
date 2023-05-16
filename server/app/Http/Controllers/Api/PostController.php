@@ -31,27 +31,15 @@ class PostController extends Controller
         $this->validate($request,[
             'title' => 'required|max:255',
             'heading_image' => 'required|max:255',
-            
-            // 'heading_image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
-            // 'descriptions' => 'required|array|min:1',
             'descriptions.*' => 'required',
-            // 'descriptions.*.image' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
         
   
         
-
-        
-
-    //     if (isset($request->heading_image) && !empty($request->heading_image)) {
-    //     return response()->json([
-    //         'back heading_image' => time().'.'.$request->heading_image->extension(),                    
-    //     ]);
-    // }
     //---------------------------------------------------------------------------
-        // $imageName = time().'.'.$request->heading_image->extension();
-        // $imageName='http://127.0.0.1:8000/images/'.$imageName;
-        // $request->heading_image->move(public_path('images'), $imageName);
+        $imageName = time().'.'.$request->heading_image->extension();
+        $imageName='http://127.0.0.1:8000/images/'.$imageName;
+        $request->heading_image->move(public_path('images'), $imageName);
         
 
         $slug=Str::slug($request->input('title'));
@@ -62,26 +50,25 @@ class PostController extends Controller
         }
         
         
-        // $post = Post::create([
-        //     'title' => $request->input('title'),
-        //     'slug' => $slug,
-        //     'heading_image' => $imageName,
-        //     'user_id' => auth()->user()->id,
-        //     'category_id' => $request->input('category_id'),
-        // ]);
+        $post = Post::create([
+            'title' => $request->input('title'),
+            'slug' => $slug,
+            'heading_image' => $imageName,
+            'user_id' => auth()->user()->id, 
+            'category_id' => $request->input('category_id'),
+        ]);
     //---------------------------------------------------------------------------
         
                     foreach ($request->input('descriptions') as  $descriptionInput) {
-                        // $description = new Description();
-                        // $description->post_id = $post->id;
-                        // $description->heading= $descriptionInput['heading'];
-                        // $description->description = $descriptionInput['description'];
-                        // $description->save();
-                        // var_dump($descriptionInput);
+                        $description = new Description();
+                        $description->post_id = $post->id;
+                        $description->heading= $descriptionInput['heading'];
+                        $description->description = $descriptionInput['description'];
+                        $description->save();
                                             if (isset($descriptionInput['image']) && !empty($descriptionInput['image'])) {
                                                 return response()->json([
-                                                        'back description' => 'description image exist',                    
-                                                        // 'back description image' => $descriptionInput['image'],                    
+                                                        // 'back description' => 'description image exist',                    
+                                                        'back description image' => $descriptionInput['image'],                    
                                                         'back description image' => time().'.'.$descriptionInput['image']->extension(),                    
                                                     ]);
 
@@ -99,16 +86,16 @@ class PostController extends Controller
                             
                        
 
-                            // $postImage = new postImages();
-                            // $postImage->post_id = $post->id;
-                            // $postImage->description_id = $description->id;
-                            // $postImage->image = $imageName;
-                            // $postImage->save();
+                            $postImage = new postImages();
+                            $postImage->post_id = $post->id;
+                            $postImage->description_id = $description->id;
+                            $postImage->image = $imageName;
+                            $postImage->save();
                     }
 
         return response()->json([
             'message' => 'Post created successfully.',
-            // 'post' => $post,
+            'post' => $post,
         ]);
     }
     

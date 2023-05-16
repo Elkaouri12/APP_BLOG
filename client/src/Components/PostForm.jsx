@@ -1,9 +1,9 @@
 import axios from 'axios';
-import React, { useEffect, useState } from 'react';
+import React, {  useState } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '../styles/PostForm.css'
-import { useDispatch, useSelector } from 'react-redux';
-import { GetCategories } from '../Redux/CategorySlice';
+import {  useSelector } from 'react-redux';
+
 const PostForm = () => {
   const {Categories}=useSelector(state=>state.Category);
   const [formData, setFormData] = useState({
@@ -115,13 +115,6 @@ const handleImageInputChange = (index, event) => {
 
 
 
-
-  const dispatch=useDispatch();
-  useEffect(()=>{
-    dispatch(GetCategories());
-
-  },
-  [dispatch])
   
   return (
 <div className='container border border-primary rounded mx-auto' >
